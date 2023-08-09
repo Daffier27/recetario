@@ -1,0 +1,116 @@
+/*Estilos generales*/
+*{
+    background-color: #E7DED5;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+body{
+    padding: 0;
+    margin: 0;
+}
+
+/*Estilos del titulo*/
+header{
+    border-radius: 5px;
+    margin: 10px 20px 20px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #3B6978;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, .3);
+}
+
+#titulo{
+    background-color: #3B6978;
+    color: whitesmoke;
+    -webkit-text-stroke: 0.25px black;
+}
+
+/*Contenido principal*/
+h3{
+    color:#32687a;
+}
+    
+#contenido-principal{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.container{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    /* border: 1px solid black; */
+    width: 500px;
+}
+
+.listas{
+    border: 1px solid #5da5bd;
+    border-radius: 5px;
+    min-height: 20rem;
+    min-width: 55%;
+    padding: 1rem;
+}
+
+.inputs-formulario{
+    display:flex;
+    flex-direction: column;
+    
+}
+
+input, textarea{
+    border:1px solid #3B6978;
+    border-radius: 5px;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, .3);
+}
+
+#button{
+    color: whitesmoke;
+    background-color: #32687a;
+    border-radius: 5px;
+    border: #32687a;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, .3);
+    height: 2rem;
+}
+
+#button:hover{
+    background-color: #5c7b85;
+}
+
+
+/*Lista de recetas guardadas*/
+#lista-recetas{
+    list-style: none;
+}
+
+.elemento-lista{
+    padding: 5px 0px;
+    display: flex;
+    justify-content: center;
+    font-weight: 600;
+}
+
+.btn-eliminar{
+    background-color: rgb(232, 64, 51);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    font-weight: 900;
+    margin-left: 10px;
+}
+
+/*Footer*/
+
+#pie-pagina{
+    display: flex;
+    width: 100%;
+    margin: 0;
+    background-color: #3B6978;
+    height: 4rem;
+    align-items: center;
+    justify-content: center;
+    color: whitesmoke;
+    
+}
