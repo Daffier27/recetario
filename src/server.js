@@ -5,7 +5,9 @@ require('dotenv').config()
 
 const PORT = process.env.PORT
 
-app.get('/',  (req, res) => {
+
+
+app.get('/', (req, res) => {
   console.log('funciona')
   res.send('funciona')
 })
