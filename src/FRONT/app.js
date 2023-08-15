@@ -1,8 +1,6 @@
 // Variables
 const formulario = document.querySelector('#formulario')
 const lista = document.querySelector('#lista-recetas')
-const button = document.querySelector('#button')
-const btn_eliminar = document.querySelector('.btn-eliminar')
 
 let recetas = []
 
@@ -41,7 +39,6 @@ function agregarReceta (e) {
     comensales <= 0 ||
     descripcion === ''
   ) {
-    alert('Introduce el formulario correctamente')
     formulario.reset() // Ponemos el formulario en blanco
     return // Para evitar que se ejecute el resto del codigo
   }
@@ -90,16 +87,6 @@ function crearHTML () {
     // Agregamos dentro de los elementos li
     li.appendChild(button)
   })
-
-  sincronizarStorage()
-}
-
-// Almacenar las recetas en el localStorage
-
-function sincronizarStorage () {
-  // Tenemos que pasar el Array de objetos a una cadena,
-  // ya que el localStorage solo almacena cadenas
-  localStorage.setItem('recetario', JSON.stringify(recetas))
 }
 
 // Eliminar elementos al pulsar el boton
