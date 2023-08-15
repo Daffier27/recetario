@@ -1,19 +1,20 @@
-const mysql = require('mysql2')
+require('dotenv').config()
+
+const mysql = require('mysql2/promise')
 
 const dbConfig = {
   host: process.env.DB_HOST,
   port: process.env.PORT,
-  user: process.env.DD_USER,
-  database: 'recetario',
+  user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
-  timezone: 'local'
+  database: 'recetario'
 }
 
 let pool
 
 const getPoolConnection = async () => {
   if (!pool) {
-    pool = await mysql.getPoolConnection(dbConfig)
+    pool = await mysql.createPool(dbConfig)
   }
 
   return pool
