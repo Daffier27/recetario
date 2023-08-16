@@ -4,7 +4,7 @@
   "description": "Este proyecto no esta finalizado, debido a que me faltan conocimientos, se actualizara con el tiempo. Gracias por su comprension.",
   "main": "app.js",
   "scripts": {
-    "dev": "nodemon src/server.js",
+    "dev": "nodemon src/BACK/App.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
