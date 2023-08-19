@@ -2,8 +2,6 @@
 const formulario = document.querySelector('#formulario')
 const lista = document.querySelector('#lista-recetas')
 
-let recetas = []
-
 // Eventos
 eventListeners()
 
@@ -12,89 +10,103 @@ function eventListeners () {
   formulario.addEventListener('submit', agregarReceta)
 
   // Cuando el documento esta listo
-  document.addEventListener('DOMContentLoaded', () => {
-    // Llamamos al objeto almacenado
-    const recetario = JSON.parse(localStorage.getItem('recetario')) || []
-    recetas = recetario // Asinamos el valore del recetario antes de llamar al crearHTML
-    crearHTML()
-  })
-}
+  document.addEventListener('DOMContentLoaded', cargarDatosDesdeAPI)
 
-// funciones
+  // funciones
 
-// Funcion de agregar la receta
-function agregarReceta (e) {
-  e.preventDefault()
-
-  // Obtener los valores del formulario
-  const receta = document.querySelector('#receta').value
-  const ingredientes = document.querySelector('#ingredientes').value
-  const comensales = document.querySelector('#numero_comensales').value
-  const descripcion = document.querySelector('#descripcion').value
-
-  // Validacion del formulario
-  if (
-    receta === '' ||
-    ingredientes === '' ||
-    comensales <= 0 ||
-    descripcion === ''
-  ) {
-    formulario.reset() // Ponemos el formulario en blanco
-    return // Para evitar que se ejecute el resto del codigo
+  // Funcion para cargar los datos directamente desde la api
+  function cargarDatosDesdeAPI () {
+    fetch('http://localhost:5000/', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        const recetas = data
+        crearHTML(recetas)
+      })
+      .catch(error => {
+        console.log('El error es', error)
+      })
   }
 
-  formulario.reset() // Ponemos el formulario en blanco
+  // Funcion de agregar la receta
+  function agregarReceta (e) {
+    e.preventDefault()
 
-  const objReceta = {
-    id: Date.now(), // Sera el identificador hasta que tengamos la base de datos
-    receta,
-    ingredientes,
-    comensales,
-    descripcion
-  }
+    const receta = document.querySelector('#receta').value
+    const ingredientes = document.querySelector('#ingredientes').value
+    const comensales = document.querySelector('#numero_comensales').value
+    const descripcion = document.querySelector('#descripcion').value
 
-  recetas = [...recetas, objReceta]
-
-  crearHTML()
-}
-
-// Muestra el html de las recetas
-function crearHTML () {
-  // Limpiamos la lista antes de agregar las recetas
-  lista.innerHTML = ''
-
-  // Recorremos las recetas y creamos un nuevo elemento li por cada una
-  recetas.forEach((objeto) => {
-    // Creamos elementos
-    const button = document.createElement('button')
-    const li = document.createElement('li')
-
-    // Asignamos el contenido dentro de los Componentes
-    button.innerText = '-'
-    li.innerText = objeto.receta
-
-    // Añadir clases a los elementos HTML
-    button.classList.add('btn-eliminar')
-    li.classList.add('elemento-lista')
-
-    // Añadir la funcion de eliminar elementos
-    button.onclick = () => {
-      eliminarElemento(objeto.id)
+    if (receta === '' || ingredientes === '' || comensales <= 0 || descripcion === '') {
+      formulario.reset()
+      return
     }
 
-    // Agregamos el li a la lista
-    lista.appendChild(li)
-    // Agregamos dentro de los elementos li
-    li.appendChild(button)
-  })
-}
+    formulario.reset()
 
-// Eliminar elementos al pulsar el boton
-function eliminarElemento (elemento) {
-  // Seleccionar el String del localStorage
-  recetas = recetas.filter((receta) => {
-    return receta.id !== elemento
-  })
+    const nuevaReceta = {
+      receta,
+      ingredientes,
+      comensales,
+      descripcion
+    }
 
-  crearHTML()
+    fetch('http://localhost:5000/nueva-receta', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(nuevaReceta)
+    })
+      .then(response => response.json())
+      .then(data => {
+        cargarDatosDesdeAPI() // Cargar datos nuevamente después de agregar la receta
+      })
+      .catch(error => {
+        console.log('El error es', error)
+      })
+  }
+
+  // Muestra el html de las recetas
+  function crearHTML (recetas) {
+    const lista = document.getElementById('lista-recetas') // Supongo que tienes un elemento <ul> con id 'lista-recetas'
+    lista.innerHTML = '' // Limpia la lista antes de agregar elementos nuevos
+
+    // Recorre las recetas y crea elementos li y botones
+    recetas.forEach(objeto => {
+      const button = document.createElement('button')
+      const li = document.createElement('li')
+
+      button.innerText = '-'
+      li.innerText = objeto.receta
+
+      button.classList.add('btn-eliminar')
+      li.classList.add('elemento-lista')
+
+      button.onclick = () => {
+        eliminarElemento(objeto.id)
+      }
+
+      li.appendChild(button)
+      lista.appendChild(li)
+    })
+  }
+
+  // Eliminar elementos al pulsar el boton
+  function eliminarElemento (recetas) {
+    if (!Array.isArray(recetas)) {
+      console.log('Recetas no es un array válido')
+      return
+    }
+
+    recetas = recetas.filter((receta) => {
+      return receta.id !== elemento
+    })
+
+    crearHTML(recetas)
+  }
 }

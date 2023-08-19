@@ -1,10 +1,13 @@
 // Importaciones
 const { homeRouter } = require('./router/homeRouter.js')
 const express = require('express')
+const cors = require('cors')
 const app = express()
 require('dotenv').config()
 // Variables de entorno
 const PORT = process.env.HOST_PORT
+
+app.use(cors())
 
 app.use(express.json())
 
@@ -19,5 +22,5 @@ app.use((error, req, res, next) => {
 })
 
 app.listen(PORT, () => {
-  console.log('Server listening...')
+  console.log(`Server listening on ${PORT}`)
 })
