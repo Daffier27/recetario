@@ -1,11 +1,23 @@
 const { getPoolConnection } = require('../connectionDB.js')
 const createError = require('../../../helpers/defaultError.js')
 const { v4: uuidv4 } = require('uuid')
+const { validateSchema } = require('../schema/newRecetaSchema.js')
 
 async function postHome (req, res, next) {
   try {
+    const results = await validateSchema(req.body)
+
+    if (results.error) {
+      return res.status(400).json({ error: results.error.message })
+    }
     const id = uuidv4()
-    const { name, ingredients, persons, description } = req.body
+
+    const newReceta = {
+      id,
+      ...results
+    }
+
+    const { data: { name, ingredients, persons, description } } = newReceta
 
     const pool = await getPoolConnection()
     const recetas = await pool.query('SELECT * FROM recetas')
