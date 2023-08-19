@@ -55,7 +55,7 @@ function eventListeners () {
       descripcion
     }
 
-    fetch('http://localhost:5000/nueva-receta', {
+    fetch('http://localhost:5000/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
